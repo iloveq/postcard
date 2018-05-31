@@ -129,15 +129,12 @@ export default {
         this.show_snap = false;
       }, 800);
     },
-    clickButton:function(){
-     
-      if(this.user_action=="登陆"){
-        //TODO:token未持久化
-        this.login(this.login_form.user,this.login_form.pwd,this.login_form.token)
-      }else{
+    clickButton: function() {
+      if (this.user_action == "登陆") {
+        this.login();
+      } else {
         this.register();
       }
-
     },
 
     register: function() {
@@ -163,7 +160,10 @@ export default {
                   } else {
                     that.showSnap("success", response.body.message);
                     //TODO:登陆
-                    that.login(response.body.data.name,response.body.data.password,response.body.data.token);
+                    that.login_form.name = response.body.data.name;
+                    that.login_form.password = response.body.data.password;
+                    that.login_form.token = response.body.data.token;
+                    that.login();
                   }
                 } else {
                   that.showSnap("success", "响应格式错误");
@@ -182,30 +182,37 @@ export default {
       this.$router.push({ path: "/personal" });
     },
 
-    login:function (user, pwd, token){
+    login: function() {
       var that = this;
-      this.$http
-        .post("http://localhost:3001/api/login", this.login_form)
-        .then(
-          response => {
-            if (response.ok) {
-              if (
-                !utils.isEmpty(response.body.data.token) &&
-                response.body.data.password == pwd &&
-                response.body.data.name == user
-              ) {
-                that.showSnap("error",response.body.message);
-                this.is_show_user_info = true;
-                //存储token
+      this.login_form.name = this.input_name;
+      this.login_form.password = this.input_pwd;
+      // token 从 vuex 获取
+      this.login_form.token = "";
+      if (utils.isEmpty(this.input_name) || utils.isEmpty(this.input_pwd)) {
+        that.showSnap("error", "输入格式错误");
+        console.log("112");
+      } else {
+        this.$http
+          .post("http://localhost:3001/api/login", this.login_form)
+          .then(
+            response => {
+              if (response.ok) {
+                if (!utils.isEmpty(response.body.data.token)) {
+                  that.showSnap("error", response.body.message);
+                  that.user_form.name = response.body.data.username;
+                  that.is_show_user_info = true;
+
+                  //存储token
+                }
+              } else {
+                that.showSnap("error", "登陆失败");
               }
-            } else {
+            },
+            () => {
               that.showSnap("error", "登陆失败");
             }
-          },
-          () => {
-            that.showSnap("error", "登陆失败");
-          }
-        );
+          );
+      }
     }
   }
 };
