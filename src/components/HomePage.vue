@@ -198,11 +198,12 @@ export default {
             response => {
               if (response.ok) {
                 if (!utils.isEmpty(response.body.data.token)) {
-                  that.showSnap("error", response.body.message);
+                  that.showSnap("success", response.body.message);
                   that.user_form.name = response.body.data.username;
                   that.is_show_user_info = true;
-
                   //存储token
+                }else{
+                   that.showSnap("error", response.body.message);
                 }
               } else {
                 that.showSnap("error", "登陆失败");
