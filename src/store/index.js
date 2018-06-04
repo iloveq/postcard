@@ -1,3 +1,4 @@
+/* jshint esversion: 6 */ 
 import Vue from 'vue';
 import Vuex from 'vuex';
 import mutations from './mutations';
@@ -18,4 +19,4 @@ export default new Vuex.Store({
 	getters,
 	actions,
 	mutations,
-})
+});

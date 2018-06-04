@@ -64,7 +64,8 @@
 </template>
 
 <script>
-const utils = require("../utils.js");
+import { isEmpty } from "../utils.js";
+import { mapState, mapMutations } from "vuex";
 export default {
   name: "HomePage",
   components: {
@@ -116,6 +117,7 @@ export default {
     };
   },
   methods: {
+    ...mapMutations(["RECORD_USERINFO"]),
     switchUserAction: function() {
       this.user_action = this.user_action_ctrl == "登陆" ? "登陆" : "注册";
       this.user_action_ctrl = this.user_action_ctrl == "登陆" ? "注册" : "登陆";
@@ -142,7 +144,7 @@ export default {
       this.user_form.name = this.input_name;
       this.user_form.password = this.input_pwd;
 
-      if (utils.isEmpty(this.input_name) || utils.isEmpty(this.input_pwd)) {
+      if (isEmpty(this.input_name) || isEmpty(this.input_pwd)) {
         that.showSnap("error", "输入格式错误");
         console.log("111");
       } else {
@@ -152,8 +154,8 @@ export default {
             response => {
               if (response.ok) {
                 if (
-                  !utils.isEmpty(response.body.data.name) &&
-                  !utils.isEmpty(response.body.data.password)
+                  !isEmpty(response.body.data.name) &&
+                  !isEmpty(response.body.data.password)
                 ) {
                   if (response.body.code == "201") {
                     that.showSnap("warning", response.body.message);
@@ -188,7 +190,7 @@ export default {
       this.login_form.password = this.input_pwd;
       // token 从 vuex 获取
       this.login_form.token = "";
-      if (utils.isEmpty(this.input_name) || utils.isEmpty(this.input_pwd)) {
+      if (isEmpty(this.input_name) || isEmpty(this.input_pwd)) {
         that.showSnap("error", "输入格式错误");
         console.log("112");
       } else {
@@ -197,13 +199,18 @@ export default {
           .then(
             response => {
               if (response.ok) {
-                if (!utils.isEmpty(response.body.data.token)) {
+                if (!isEmpty(response.body.data.token)) {
                   that.showSnap("success", response.body.message);
                   that.user_form.name = response.body.data.username;
                   that.is_show_user_info = true;
                   //存储token
-                }else{
-                   that.showSnap("error", response.body.message);
+                  this.RECORD_USERINFO({
+                    token: response.body.data.token,
+                    isLogin: true,
+                    imgArr: response.body.data.imgArr
+                  });
+                } else {
+                  that.showSnap("error", response.body.message);
                 }
               } else {
                 that.showSnap("error", "登陆失败");
