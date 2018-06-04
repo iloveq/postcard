@@ -7,7 +7,9 @@ import getters from './getters';
 Vue.use(Vuex);
 
 const state = {
-	login: true,//是否登录
+
+	token:"",
+	isLogin: false,//是否登录
 	imgArr:"",//头像avatar
 }
 
