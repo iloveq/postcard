@@ -4,6 +4,7 @@ import HelloWorld from '@/components/HelloWorld'
 import home from '@/components/HomePage'
 import personal from '@/components/PersonalPage'
 import toolbar from '@/components/Toolbar'
+import snapbar from '@/components/Snapbar'
 
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ export default new Router({
       path: '/hello',
       name: 'HelloWorld',
       component: HelloWorld
-    }
+    },
+    {
+      path: '/snapbar',
+      name: 'snapbar',
+      component: snapbar
+    },
   ]
 })

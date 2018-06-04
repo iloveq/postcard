@@ -72,8 +72,8 @@ export default {
   },
   data: function() {
     return {
-      show_snap: false,
       default_user_img: "./static/imgs/avatar.jpg",
+      show_snap: true,
       type: "success",
       snap_text: "欢迎来到微笑明信片，让我们一起分享快乐吧 φ(゜▽゜*)♪",
       is_show_user_info: false,
