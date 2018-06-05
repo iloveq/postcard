@@ -1,5 +1,5 @@
 /* jshint esversion: 6 */
-import { RECORD_USERINFO, GET_USERINFO, CLEAR_USERINFO } from './mutation-types.js';
+import { RECORD_USERINFO, CLEAR_USERINFO } from './mutation-types.js';
 import { setStore, getStore, isEmpty, removeStore } from '../utils';
 
 
