@@ -28,7 +28,7 @@
         </div>
         <!-- 昵称 -->
         <div class="head-name">
-          <span style="font-size:16px;font-weight:900;color:#444;margin-right:10px;">{{user_form.name!=""?user_form.name:"微笑"}}</span>
+          <span style="font-size:16px;font-weight:900;color:#444;margin-right:10px;">{{username!=""?username:"微笑"}}</span>
         </div>
         <!-- 个人简介 -->
         <div class="head-desc">
@@ -81,7 +81,7 @@ export default {
       user_action_ctrl: "登陆",
       input_name: "",
       input_pwd: "",
-      user_form: {
+      register_form: {
         name: "",
         age: "",
         sex: "",
@@ -116,7 +116,8 @@ export default {
     };
   },
   computed: mapState({
-    isLogin: "isLogin"
+    isLogin: 'isLogin',
+    username:'username'
   }),
   methods: {
     ...mapMutations(["RECORD_USERINFO"]),
@@ -143,15 +144,15 @@ export default {
 
     register: function() {
       var that = this;
-      this.user_form.name = this.input_name;
-      this.user_form.password = this.input_pwd;
+      this.register_form.name = this.input_name;
+      this.register_form.password = this.input_pwd;
 
       if (isEmpty(this.input_name) || isEmpty(this.input_pwd)) {
         that.showSnap("error", "输入格式错误");
         console.log("111");
       } else {
         this.$http
-          .post("http://localhost:3001/api/register", this.user_form)
+          .post("http://localhost:3001/api/register", this.register_form)
           .then(
             response => {
               if (response.ok) {
@@ -203,9 +204,9 @@ export default {
               if (response.ok) {
                 if (!isEmpty(response.body.data.token)) {
                   that.showSnap("success", response.body.message);
-                  that.user_form.name = response.body.data.username;
                   //存储token
                   this.RECORD_USERINFO({
+                    username:response.body.data.username,
                     token: response.body.data.token,
                     isLogin: true,
                     imgArr: response.body.data.imgArr

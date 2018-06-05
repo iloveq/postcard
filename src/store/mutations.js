@@ -9,6 +9,7 @@ export default {
 	[RECORD_USERINFO](state, userInfo) {
 
 		if (!isEmpty.userInfo) {
+			state.username = userInfo.username;
 			state.token = userInfo.token;
 			state.isLogin = userInfo.isLogin;
 			state.imgArr = userInfo.imgArr;
