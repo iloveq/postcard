@@ -4,7 +4,7 @@
     <toolbar></toolbar>
     <!-- 内容 -->
     <!-- 登陆 注册 -->
-    <div id="user_info_area" v-show="!is_show_user_info">
+    <div id="user_info_area" v-show="!isLogin">
       <el-input id="input_name" placeholder="昵称/手机号" suffix-icon="el-icon-mobile-phone" v-model="input_name">
       </el-input>
       <el-input id="input_pwd" placeholder="密码" suffix-icon="el-icon-view" v-model="input_pwd">
@@ -17,7 +17,7 @@
       </div>
     </div>
     <!-- 用户专栏 -->
-    <div id="user_info" v-show="is_show_user_info">
+    <div id="user_info" v-show="isLogin">
       <!-- 帽子 -->
       <div class="hat"></div>
       <!-- 头 -->
@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import { isEmpty } from "../utils.js";
+import { isEmpty, getStore } from "../utils.js";
 import { mapState, mapMutations } from "vuex";
 export default {
   name: "HomePage",
@@ -77,7 +77,6 @@ export default {
       show_snap: true,
       type: "success",
       snap_text: "欢迎来到微笑明信片，让我们一起分享快乐吧 φ(゜▽゜*)♪",
-      is_show_user_info: false,
       user_action: "注册",
       user_action_ctrl: "登陆",
       input_name: "",
@@ -116,6 +115,9 @@ export default {
       ]
     };
   },
+  computed: mapState({
+    isLogin: "isLogin"
+  }),
   methods: {
     ...mapMutations(["RECORD_USERINFO"]),
     switchUserAction: function() {
@@ -202,13 +204,13 @@ export default {
                 if (!isEmpty(response.body.data.token)) {
                   that.showSnap("success", response.body.message);
                   that.user_form.name = response.body.data.username;
-                  that.is_show_user_info = true;
                   //存储token
                   this.RECORD_USERINFO({
                     token: response.body.data.token,
                     isLogin: true,
                     imgArr: response.body.data.imgArr
                   });
+                  console.log(getStore("token"));
                 } else {
                   that.showSnap("error", response.body.message);
                 }
