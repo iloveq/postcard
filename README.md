@@ -1,6 +1,8 @@
 # postcard
 
-> A Vue.js project
+A Vue.js project
+
+![image](https://upload-images.jianshu.io/upload_images/8886407-7c3f864469779cd2.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/700)
 
 ## Build Setup
 
