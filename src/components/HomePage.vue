@@ -49,6 +49,10 @@
         </div>
       </div>
     </div>
+    <!-- 优秀作品推荐 -->
+    <div id="card-list">
+
+    </div>
     <!-- 浏览器底部toast -->
     <div id="snap" v-show="show_snap">
       <el-alert v-if="type === 'success'" :title="snap_text" type="success" center>
@@ -386,6 +390,10 @@ export default {
   font-size: 12px;
   font-weight: 600;
   color: #586069;
+}
+
+#card-list{
+  
 }
 
 #snap {
