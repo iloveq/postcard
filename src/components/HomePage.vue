@@ -38,7 +38,7 @@
         <i id="edit-mine-info" class="el-icon-edit"></i>
       </div>
       <!-- 尾巴 -->
-      <div class="tail-nav" >
+      <div class="tail-nav">
         <div class="nav-item" v-for="(item,index) in items" :key="index">
           <a :href="item.href" class="Item" role="tab" :title="item.name">
             {{item.name}}
@@ -73,9 +73,10 @@
 </template>
 
 <script>
-import { isEmpty, getStore } from "../utils.js";
-import { mapState, mapMutations } from "vuex";
-import { login_form, register_form, items, cards } from "../data/localData.js";
+import { isEmpty, getStore } from '../utils.js';
+import { mapState, mapMutations } from 'vuex';
+import { login_form, register_form, items, cards } from '../data/localData.js';
+import Api from '../data/api.js';
 export default {
   name: "HomePage",
   components: {
@@ -124,18 +125,15 @@ export default {
         this.register();
       }
     },
-
     register: function() {
       var that = this;
       this.register_form.name = this.input_name;
       this.register_form.password = this.input_pwd;
-
       if (isEmpty(this.input_name) || isEmpty(this.input_pwd)) {
         that.showSnap("error", "输入格式错误");
-        console.log("111");
       } else {
         this.$http
-          .post("http://localhost:3001/api/register", this.register_form)
+          .post(Api.REGISTER, this.register_form)
           .then(
             response => {
               if (response.ok) {
@@ -180,7 +178,7 @@ export default {
         console.log("112");
       } else {
         this.$http
-          .post("http://localhost:3001/api/login", this.login_form)
+          .post(Api.LOGIN, this.login_form)
           .then(
             response => {
               if (response.ok) {
@@ -371,10 +369,9 @@ export default {
 }
 
 #card-list {
-  width: 900px;
+  width: 950px;
   background: #fff;
   margin-top: 30px;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
   margin-left: auto;
   margin-right: auto;
   display: flex;
@@ -388,7 +385,8 @@ export default {
 
 .card-item {
   flex-grow: 1;
-  margin: 2px;
+  margin: 5px;
+  box-shadow: 1.5px 1.5px 4px rgba(0, 0, 0, 0.2);
   position: relative;
   align-items: center;
 }
