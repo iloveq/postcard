@@ -462,15 +462,15 @@ export default {
   display: inline-block;
   width: auto;
   height: 12px;
-  line-height: 12px;
+  line-height: 16px;
   font-size: 12px;
   margin-right: 10px;
 }
 
 .like-icon {
   display: inline-block;
-  width: 12px;
-  height: 12px;
+  width: 16px;
+  height: 16px;
   margin-right: 4px;
   vertical-align: bottom;
   background: url(/static/imgs/unlike.svg) 0 0 no-repeat;
@@ -480,15 +480,15 @@ export default {
   display: inline-block;
   width: auto;
   height: 12px;
-  line-height: 12px;
+  line-height: 16px;
   font-size: 12px;
   margin-right: 10px;
 }
 
 .share-icon {
   display: inline-block;
-  width: 12px;
-  height: 12px;
+  width: 16px;
+  height: 16px;
   margin-right: 4px;
   vertical-align: bottom;
   background: url(/static/imgs/unshare.svg) 0 0 no-repeat;
