@@ -54,7 +54,7 @@
     <div id="card-list" v-show="isLogin">
       <div class="card-item">
         <!-- 添加图片 -->
-        <div class="card-add-img">
+        <div class="card-add-img" >
         </div>
         <div class="card-add-userinfo">
           作者：{{username}}
