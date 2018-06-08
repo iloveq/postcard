@@ -49,13 +49,42 @@
         </div>
       </div>
     </div>
+    <!-- 我的作品 -->
+    <h4 v-show="isLogin" style="width: 970px;background: #fff;margin-top: 30px;margin-left: auto;margin-right: auto;">我的作品</h4>
+    <div id="card-list" v-show="isLogin">
+      <div class="card-item" v-for="(item,index) in works" :key="index">
+        <img class="card-item-img" :src="item.imgurl">
+        <div class="card-item-userinfo">
+          {{item.name}}
+        </div>
+        <div class="card-item-content">
+          {{item.content}}
+        </div>
+        <p class="card-item-operator">
+          <span title="喜欢" class="like">
+            <i class="like-icon"></i>{{item.like}}</span>
+          <span title="分享" class="share">
+            <i class="share-icon"></i>{{item.share}}</span>
+        </p>
+      </div>
+    </div>
     <!-- 优秀作品推荐 -->
+    <h4 v-show="isLogin" style="width: 970px;background: #fff;margin-top: 30px;margin-left: auto;margin-right: auto;">热门推荐</h4>
     <div id="card-list" v-show="isLogin">
       <div class="card-item" v-for="(item,index) in cards" :key="index">
         <img class="card-item-img" :src="item.imgurl">
         <div class="card-item-userinfo">
-          {{item.name}} {{item.like}}
+          {{item.name}}
         </div>
+        <div class="card-item-content">
+          {{item.content}}
+        </div>
+        <p class="card-item-operator">
+          <span title="喜欢" class="like">
+            <i class="like-icon"></i>{{item.like}}</span>
+          <span title="分享" class="share">
+            <i class="share-icon"></i>{{item.share}}</span>
+        </p>
       </div>
     </div>
     <!-- 浏览器底部toast -->
@@ -73,10 +102,16 @@
 </template>
 
 <script>
-import { isEmpty, getStore } from '../utils.js';
-import { mapState, mapMutations } from 'vuex';
-import { login_form, register_form, items, cards } from '../data/localData.js';
-import Api from '../data/api.js';
+import { isEmpty, getStore } from "../utils.js";
+import { mapState, mapMutations } from "vuex";
+import {
+  login_form,
+  register_form,
+  items,
+  cards,
+  works
+} from "../data/localData.js";
+import Api from "../data/api.js";
 export default {
   name: "HomePage",
   components: {
@@ -95,7 +130,8 @@ export default {
       register_form,
       login_form,
       items,
-      cards
+      cards,
+      works
     };
   },
   computed: mapState({
@@ -132,34 +168,32 @@ export default {
       if (isEmpty(this.input_name) || isEmpty(this.input_pwd)) {
         that.showSnap("error", "输入格式错误");
       } else {
-        this.$http
-          .post(Api.REGISTER, this.register_form)
-          .then(
-            response => {
-              if (response.ok) {
-                if (
-                  !isEmpty(response.body.data.name) &&
-                  !isEmpty(response.body.data.password)
-                ) {
-                  if (response.body.code == "201") {
-                    that.showSnap("warning", response.body.message);
-                  } else {
-                    that.showSnap("success", response.body.message);
-                    //TODO:登陆
-                    that.login_form.name = response.body.data.name;
-                    that.login_form.password = response.body.data.password;
-                    that.login_form.token = response.body.data.token;
-                    that.login();
-                  }
+        this.$http.post(Api.REGISTER, this.register_form).then(
+          response => {
+            if (response.ok) {
+              if (
+                !isEmpty(response.body.data.name) &&
+                !isEmpty(response.body.data.password)
+              ) {
+                if (response.body.code == "201") {
+                  that.showSnap("warning", response.body.message);
                 } else {
-                  that.showSnap("success", "响应格式错误");
+                  that.showSnap("success", response.body.message);
+                  //TODO:登陆
+                  that.login_form.name = response.body.data.name;
+                  that.login_form.password = response.body.data.password;
+                  that.login_form.token = response.body.data.token;
+                  that.login();
                 }
+              } else {
+                that.showSnap("success", "响应格式错误");
               }
-            },
-            () => {
-              that.showSnap("error", "注册失败，请检查网络连接");
             }
-          );
+          },
+          () => {
+            that.showSnap("error", "注册失败，请检查网络连接");
+          }
+        );
       }
     },
 
@@ -177,32 +211,30 @@ export default {
         that.showSnap("error", "输入格式错误");
         console.log("112");
       } else {
-        this.$http
-          .post(Api.LOGIN, this.login_form)
-          .then(
-            response => {
-              if (response.ok) {
-                if (!isEmpty(response.body.data.token)) {
-                  that.showSnap("success", response.body.message);
-                  //存储token
-                  this.RECORD_USERINFO({
-                    username: response.body.data.username,
-                    token: response.body.data.token,
-                    isLogin: true,
-                    imgArr: response.body.data.imgArr
-                  });
-                  console.log(getStore("token"));
-                } else {
-                  that.showSnap("error", response.body.message);
-                }
+        this.$http.post(Api.LOGIN, this.login_form).then(
+          response => {
+            if (response.ok) {
+              if (!isEmpty(response.body.data.token)) {
+                that.showSnap("success", response.body.message);
+                //存储token
+                this.RECORD_USERINFO({
+                  username: response.body.data.username,
+                  token: response.body.data.token,
+                  isLogin: true,
+                  imgArr: response.body.data.imgArr
+                });
+                console.log(getStore("token"));
               } else {
-                that.showSnap("error", "登陆失败");
+                that.showSnap("error", response.body.message);
               }
-            },
-            () => {
+            } else {
               that.showSnap("error", "登陆失败");
             }
-          );
+          },
+          () => {
+            that.showSnap("error", "登陆失败");
+          }
+        );
       }
     }
   }
@@ -369,7 +401,7 @@ export default {
 }
 
 #card-list {
-  width: 950px;
+  width: 1000px;
   background: #fff;
   margin-top: 30px;
   margin-left: auto;
@@ -389,22 +421,77 @@ export default {
   box-shadow: 1.5px 1.5px 4px rgba(0, 0, 0, 0.2);
   position: relative;
   align-items: center;
+  padding: 10px;
 }
 
 .card-item-img {
-  height: 200px;
+  width: 200px;
   object-fit: cover;
   min-width: 100%;
+  background: white;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #e1e1e1;
   /* vertical-align: bottom; */
 }
 
 .card-item-userinfo {
   background: white;
-  font-size: 12px;
+  font-size: 10px;
+  line-height: 18px;
+  text-align: left;
   font-weight: 600;
   color: #409eff;
-  text-align: center;
-  padding: 10px;
+}
+
+.card-item-content {
+  padding: 6px 0;
+  line-height: 18px;
+  text-align: left;
+  font-size: 12px;
+  word-wrap: break-word;
+  word-break: break-all;
+  width: 220px;
+}
+
+.card-item-operator {
+  margin: 10px 0;
+  line-height: 1.35em;
+}
+
+.like {
+  display: inline-block;
+  width: auto;
+  height: 12px;
+  line-height: 12px;
+  font-size: 12px;
+  margin-right: 10px;
+}
+
+.like-icon {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 4px;
+  vertical-align: bottom;
+  background: url(/static/imgs/unlike.svg) 0 0 no-repeat;
+}
+
+.share {
+  display: inline-block;
+  width: auto;
+  height: 12px;
+  line-height: 12px;
+  font-size: 12px;
+  margin-right: 10px;
+}
+
+.share-icon {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 4px;
+  vertical-align: bottom;
+  background: url(/static/imgs/unshare.svg) 0 0 no-repeat;
 }
 
 #snap {
