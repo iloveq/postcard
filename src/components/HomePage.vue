@@ -401,6 +401,7 @@ export default {
 }
 
 #card-list {
+  position: relative;
   width: 1000px;
   background: #fff;
   margin-top: 30px;
@@ -418,10 +419,10 @@ export default {
 .card-item {
   flex-grow: 1;
   margin: 5px;
-  box-shadow: 1.5px 1.5px 4px rgba(0, 0, 0, 0.2);
-  position: relative;
+  box-shadow: 0 1px 3px rgba(0,0,0,.3);
   align-items: center;
   padding: 10px;
+  background-color: #fff;
 }
 
 .card-item-img {
@@ -431,7 +432,6 @@ export default {
   background: white;
   padding-bottom: 6px;
   border-bottom: 1px solid #e1e1e1;
-  /* vertical-align: bottom; */
 }
 
 .card-item-userinfo {
