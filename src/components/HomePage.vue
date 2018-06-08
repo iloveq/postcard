@@ -52,6 +52,22 @@
     <!-- 我的作品 -->
     <h4 v-show="isLogin" style="width: 970px;background: #fff;margin-top: 30px;margin-left: auto;margin-right: auto;">我的作品</h4>
     <div id="card-list" v-show="isLogin">
+      <div class="card-item">
+        <!-- 添加图片 -->
+        <div class="card-add-img">
+        </div>
+        <div class="card-add-userinfo">
+          作者：{{username}}
+        </div>
+        <!-- 添加文字 -->
+        <textarea name="text" rows="3" class="card-add-content" placeholder="这里写下你想说的话（*＾-＾*）" v-bind:maxlength="140" @input="descArea" v-model="work_content"></textarea>
+        <span style="font-size:10px;float:right;color: #409eff;">{{surplus}}/140</span>
+        <div class="mt15 text-right">
+
+          <i class="btn-publish"></i>
+        </div>
+
+      </div>
       <div class="card-item" v-for="(item,index) in works" :key="index">
         <img class="card-item-img" :src="item.imgurl">
         <div class="card-item-userinfo">
@@ -131,7 +147,9 @@ export default {
       login_form,
       items,
       cards,
-      works
+      works,
+      surplus: 140,
+      work_content: ""
     };
   },
   computed: mapState({
@@ -236,6 +254,10 @@ export default {
           }
         );
       }
+    },
+    descArea() {
+      var textVal = this.work_content.length;
+      this.surplus = 140 - textVal;
     }
   }
 };
@@ -419,7 +441,7 @@ export default {
 .card-item {
   flex-grow: 1;
   margin: 5px;
-  box-shadow: 0 1px 3px rgba(0,0,0,.3);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   align-items: center;
   padding: 10px;
   background-color: #fff;
@@ -492,6 +514,36 @@ export default {
   margin-right: 4px;
   vertical-align: bottom;
   background: url(/static/imgs/unshare.svg) 0 0 no-repeat;
+}
+
+.card-add-img {
+  width: 235px;
+  height: 300px;
+  min-width: 100%;
+  padding-bottom: 6px;
+  border: 1.5px dashed #dedede;
+}
+
+.card-add-userinfo {
+  padding: 6px;
+  font-size: 10px;
+  line-height: 18px;
+  text-align: left;
+  font-weight: 600;
+  color: #409eff;
+}
+
+.card-add-content {
+  display: block;
+  margin: auto;
+  width: 215px;
+  height: 100px;
+  padding: 6px 12px;
+  font-size: 12px;
+  line-height: 1.42858;
+}
+
+.btn-publish {
 }
 
 #snap {
