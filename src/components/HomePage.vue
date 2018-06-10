@@ -52,22 +52,6 @@
     <!-- 我的作品 -->
     <h4 v-show="isLogin" style="width: 970px;background: #fff;margin-top: 30px;margin-left: auto;margin-right: auto;">我的作品</h4>
     <div id="card-list" v-show="isLogin">
-      <div class="card-item">
-        <!-- 添加图片 -->
-        <div class="card-add-img" >
-        </div>
-        <div class="card-add-userinfo">
-          作者：{{username}}
-        </div>
-        <!-- 添加文字 -->
-        <textarea name="text" rows="3" class="card-add-content" placeholder="这里写下你想说的话（*＾-＾*）" v-bind:maxlength="140" @input="descArea" v-model="work_content"></textarea>
-        <span style="font-size:10px;float:right;color: #409eff;">{{surplus}}/140</span>
-        <div class="mt15 text-right">
-
-          <i class="btn-publish"></i>
-        </div>
-
-      </div>
       <div class="card-item" v-for="(item,index) in works" :key="index">
         <img class="card-item-img" :src="item.imgurl">
         <div class="card-item-userinfo">
@@ -149,7 +133,8 @@ export default {
       cards,
       works,
       surplus: 140,
-      work_content: ""
+      work_content: "",
+      work_img: ""
     };
   },
   computed: mapState({
@@ -254,12 +239,10 @@ export default {
           }
         );
       }
-    },
-    descArea() {
-      var textVal = this.work_content.length;
-      this.surplus = 140 - textVal;
     }
+    
   }
+  
 };
 </script>
 
@@ -516,7 +499,7 @@ export default {
   background: url(/static/imgs/unshare.svg) 0 0 no-repeat;
 }
 
-.card-add-img {
+#card-add-img {
   width: 235px;
   height: 300px;
   min-width: 100%;
@@ -541,6 +524,23 @@ export default {
   padding: 6px 12px;
   font-size: 12px;
   line-height: 1.42858;
+}
+
+.imgArea img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50px;
+  height: 50px;
+}
+.imgArea input {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 5;
 }
 
 .btn-publish {
