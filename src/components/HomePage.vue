@@ -2,22 +2,8 @@
   <div id="home">
     <!-- 头部 -->
     <toolbar></toolbar>
-    <!-- 内容 -->
-    <!-- 登陆 注册 -->
-    <div id="user_info_area" v-show="!isLogin">
-      <el-input id="input_name" placeholder="昵称/手机号" suffix-icon="el-icon-mobile-phone" v-model="input_name">
-      </el-input>
-      <el-input id="input_pwd" placeholder="密码" suffix-icon="el-icon-view" v-model="input_pwd">
-      </el-input>
-      <h6 style="margin-left:10px;">内个，我们写一张明信片吧！</h6>
-      <el-button class="user_action" @click="clickButton" type="primary">{{user_action}}</el-button>
-      <div class="user_action_ctrl">
-        已有帐号？
-        <span @click="switchUserAction">{{user_action_ctrl}}</span>
-      </div>
-    </div>
     <!-- 用户专栏 -->
-    <div id="user_info" v-show="isLogin">
+    <div id="user_info">
       <!-- 帽子 -->
       <div class="hat"></div>
       <!-- 头 -->
@@ -35,7 +21,7 @@
           <span style="margin-left:10px;height:60px;width:360px;font-size:13px;font-weight:500;color:#444;display:inline-block;">这个人很懒 ~ 暂无简介</span>
         </div>
         <!-- 编辑信息 -->
-        <i id="edit-mine-info" class="el-icon-edit"></i>
+        <i id="edit-mine-info" class="el-icon-edit" @click="goPersonalPage"></i>
       </div>
       <!-- 尾巴 -->
       <div class="tail-nav">
@@ -50,8 +36,8 @@
       </div>
     </div>
     <!-- 我的作品 -->
-    <h4 v-show="isLogin" style="width: 970px;background: #fff;margin-top: 30px;margin-left: auto;margin-right: auto;">我的作品</h4>
-    <div id="card-list" v-show="isLogin">
+    <h4 v-show="works.length>0" style="width: 970px;background: #fff;margin-top: 30px;margin-left: auto;margin-right: auto;">我的作品</h4>
+    <div id="card-list" v-show="works.length>0">
       <div class="card-item" v-for="(item,index) in works" :key="index">
         <img class="card-item-img" :src="item.imgurl">
         <div class="card-item-userinfo">
@@ -69,8 +55,8 @@
       </div>
     </div>
     <!-- 优秀作品推荐 -->
-    <h4 v-show="isLogin" style="width: 970px;background: #fff;margin-top: 30px;margin-left: auto;margin-right: auto;">热门推荐</h4>
-    <div id="card-list" v-show="isLogin">
+    <h4 style="width: 970px;background: #fff;margin-top: 30px;margin-left: auto;margin-right: auto;">热门推荐</h4>
+    <div id="card-list">
       <div class="card-item" v-for="(item,index) in cards" :key="index">
         <img class="card-item-img" :src="item.imgurl">
         <div class="card-item-userinfo">
@@ -98,6 +84,7 @@
       <el-alert v-else-if="type === 'error'" :title="snap_text" type="error" center>
       </el-alert>
     </div>
+
   </div>
 </template>
 
@@ -105,8 +92,6 @@
 import { isEmpty, getStore } from "../utils.js";
 import { mapState, mapMutations } from "vuex";
 import {
-  login_form,
-  register_form,
   items,
   cards,
   works
@@ -120,35 +105,23 @@ export default {
   data: function() {
     return {
       default_user_img: "./static/imgs/avatar.jpg",
-      show_snap: true,
+      show_snap: false,
       type: "success",
       snap_text: "欢迎来到微笑明信片，让我们一起分享快乐吧 φ(゜▽゜*)♪",
-      user_action: "注册",
-      user_action_ctrl: "登陆",
-      input_name: "",
-      input_pwd: "",
-      register_form,
-      login_form,
       items,
       cards,
-      works,
-      surplus: 140,
-      work_content: "",
-      work_img: ""
+      works
     };
   },
-  computed: mapState({
-    isLogin: "isLogin",
-    username: "username",
-    token: "token"
-  }),
+  computed: {
+    ...mapState({
+      isLogin: "isLogin",
+      username: "username",
+      token: "token"
+    })
+  },
   methods: {
     ...mapMutations(["RECORD_USERINFO"]),
-    switchUserAction: function() {
-      this.user_action = this.user_action_ctrl == "登陆" ? "登陆" : "注册";
-      this.user_action_ctrl = this.user_action_ctrl == "登陆" ? "注册" : "登陆";
-    },
-
     showSnap: function(type, text) {
       this.show_snap = true;
       this.type = type;
@@ -157,92 +130,11 @@ export default {
         this.show_snap = false;
       }, 800);
     },
-    clickButton: function() {
-      if (this.user_action == "登陆") {
-        this.login();
-      } else {
-        this.register();
-      }
-    },
-    register: function() {
-      var that = this;
-      this.register_form.name = this.input_name;
-      this.register_form.password = this.input_pwd;
-      if (isEmpty(this.input_name) || isEmpty(this.input_pwd)) {
-        that.showSnap("error", "输入格式错误");
-      } else {
-        this.$http.post(Api.REGISTER, this.register_form).then(
-          response => {
-            if (response.ok) {
-              if (
-                !isEmpty(response.body.data.name) &&
-                !isEmpty(response.body.data.password)
-              ) {
-                if (response.body.code == "201") {
-                  that.showSnap("warning", response.body.message);
-                } else {
-                  that.showSnap("success", response.body.message);
-                  //TODO:登陆
-                  that.login_form.name = response.body.data.name;
-                  that.login_form.password = response.body.data.password;
-                  that.login_form.token = response.body.data.token;
-                  that.login();
-                }
-              } else {
-                that.showSnap("success", "响应格式错误");
-              }
-            }
-          },
-          () => {
-            that.showSnap("error", "注册失败，请检查网络连接");
-          }
-        );
-      }
-    },
-
     goPersonalPage: function() {
       console.log(this);
       this.$router.push({ path: "/personal" });
-    },
-
-    login: function() {
-      var that = this;
-      this.login_form.name = this.input_name;
-      this.login_form.password = this.input_pwd;
-      this.login_form.token = this.token;
-      if (isEmpty(this.input_name) || isEmpty(this.input_pwd)) {
-        that.showSnap("error", "输入格式错误");
-        console.log("112");
-      } else {
-        this.$http.post(Api.LOGIN, this.login_form).then(
-          response => {
-            if (response.ok) {
-              if (!isEmpty(response.body.data.token)) {
-                that.showSnap("success", response.body.message);
-                //存储token
-                this.RECORD_USERINFO({
-                  username: response.body.data.username,
-                  token: response.body.data.token,
-                  isLogin: true,
-                  imgArr: response.body.data.imgArr
-                });
-                console.log(getStore("token"));
-              } else {
-                that.showSnap("error", response.body.message);
-              }
-            } else {
-              that.showSnap("error", "登陆失败");
-            }
-          },
-          () => {
-            that.showSnap("error", "登陆失败");
-          }
-        );
-      }
     }
-    
   }
-  
 };
 </script>
 
@@ -256,55 +148,6 @@ export default {
   background: white;
   -webkit-tap-highlight-color: rgba(26, 26, 26, 0);
   margin-top: 20px;
-}
-#input_name {
-  margin-top: 2px;
-}
-
-#input_pwd {
-  margin-top: 8px;
-}
-
-.user_action {
-  display: inline-block;
-  text-align: center;
-  width: 100%;
-}
-
-.title {
-  font-size: 22px;
-}
-
-.content-h4 {
-  display: block;
-  font-size: 1.17em;
-  -webkit-margin-before: 1em;
-  -webkit-margin-after: 1em;
-  -webkit-margin-start: 0px;
-  -webkit-margin-end: 0px;
-  font-weight: bold;
-}
-
-.user_action_ctrl {
-  margin-top: 8px;
-  float: right;
-  font-size: 14px;
-}
-
-.user_action_ctrl span {
-  color: #409eff;
-  cursor: pointer;
-}
-
-#user_info_area {
-  z-index: 10;
-  transform: translateZ(0px);
-  width: 340px;
-  margin-left: 30px;
-  margin: auto;
-  position: absolute;
-  left: 0;
-  right: 0;
 }
 
 #user_info {
@@ -497,53 +340,6 @@ export default {
   margin-right: 4px;
   vertical-align: bottom;
   background: url(/static/imgs/unshare.svg) 0 0 no-repeat;
-}
-
-#card-add-img {
-  width: 235px;
-  height: 300px;
-  min-width: 100%;
-  padding-bottom: 6px;
-  border: 1.5px dashed #dedede;
-}
-
-.card-add-userinfo {
-  padding: 6px;
-  font-size: 10px;
-  line-height: 18px;
-  text-align: left;
-  font-weight: 600;
-  color: #409eff;
-}
-
-.card-add-content {
-  display: block;
-  margin: auto;
-  width: 215px;
-  height: 100px;
-  padding: 6px 12px;
-  font-size: 12px;
-  line-height: 1.42858;
-}
-
-.imgArea img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 50px;
-  height: 50px;
-}
-.imgArea input {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  cursor: pointer;
-  z-index: 5;
-}
-
-.btn-publish {
 }
 
 #snap {

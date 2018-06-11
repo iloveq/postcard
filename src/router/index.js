@@ -2,6 +2,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import HelloWorld from '@/components/HelloWorld';
+import login from '@/components/Login';
 import home from '@/components/HomePage';
 import personal from '@/components/PersonalPage';
 import toolbar from '@/components/Toolbar';
@@ -14,8 +15,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: home
+      name: 'login',
+      component: login
     },
     {
       path: '/home',
