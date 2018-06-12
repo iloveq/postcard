@@ -116,7 +116,7 @@ export default {
       }
 
       //进行最小压缩
-      let ndata = canvas.toDataURL("image/jpeg", 0.9);
+      let ndata = canvas.toDataURL("image/jpeg/jpg/png", 0.9);
       console.log("压缩前：" + initSize);
       console.log("压缩后：" + ndata.length);
       console.log(
@@ -145,13 +145,8 @@ export default {
         blob = new window.Blob([buffer], { type: type });
       }
 
-      let formdata = new FormData();
-      formdata.append(model, blob, name);
-      var post = {
-        params: formdata
-      };
       //选择完毕触发事件
-      this.$emit("select-complete", post);
+      this.$emit("select-complete", blob);
     },
     getImgData(img, dir, next) {
       // @param {string} img 图片的base64
@@ -213,7 +208,7 @@ export default {
         context.rotate(degree * Math.PI / 180);
         context.drawImage(this, 0, 0, drawWidth, drawHeight);
         //返回校正图片
-        next(canvas.toDataURL("image/jpeg", 0.4));
+        next(canvas.toDataURL("image/jpeg/jpg/png", 0.4));
       };
       image.src = img;
     }

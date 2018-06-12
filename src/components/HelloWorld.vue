@@ -4,10 +4,8 @@
     <h2>Essential Links</h2>
     <ul>
       <li>
-        <a
-          href="https://vuejs.org"
-          target="_blank"
-        >
+        <img style="width:100px;height:100px;" src="http://localhost:3001/images/1528790274581_0078gZ5Egy1fran1e86flj316o1kwn9x.jpg">
+        </img>
           Core Docs
         </a>
       </li>
