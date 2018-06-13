@@ -78,8 +78,7 @@ export default {
       width = standard;
 
       console.log("w:" + width + "h:" + height);
-      // let width =
-      // let height = document.querySelector(".upload").offsetHeight;
+      
 
       //如果图片大于四百万像素，计算压缩比并将大小压至400万以下
       var ratio;
