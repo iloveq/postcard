@@ -88,6 +88,12 @@
     <div id="float-ball" @click="showUploadWorkDialog">
     </div>
     <work-dialog :is-show="isShowWorkArea" @on-close="closeDialog">
+      <div class="dialog_upload_header" slot="header">
+         我的明信片
+      </div>
+       <div class="dialog_upload_main" slot="main">
+          <imgUpload v-on:select-complete="secelted"></imgUpload>
+      </div>
     </work-dialog>
   </div>
 </template>
@@ -95,13 +101,14 @@
 <script>
 import { isEmpty, getStore } from "../utils.js";
 import { mapState, mapMutations } from "vuex";
-import { items, cards, works } from "../data/localData.js";
+import { items, cards, works,upload_form } from "../data/localData.js";
 import Api from "../data/api.js";
 export default {
   name: "HomePage",
   components: {
     toolbar: require("../components/Toolbar.vue").default,
-    workDialog: require("../components/Dialog.vue").default
+    workDialog: require("../components/Dialog.vue").default,
+    imgUpload:require("../components/upload-img.vue").default
   },
   data: function() {
     return {
@@ -109,6 +116,7 @@ export default {
       show_snap: false,
       type: "success",
       snap_text: "欢迎来到微笑明信片，让我们一起分享快乐吧 φ(゜▽゜*)♪",
+      upload_form,
       items,
       cards,
       works,
@@ -141,6 +149,40 @@ export default {
     },
     closeDialog:function(){
       this.isShowWorkArea = false;
+    },
+    secelted(data) {
+      console.log(data);
+      this.upload_form.data = data;
+      this.upload_form.name = "111";
+      this.upload_form.content = "我们";
+      this.upload();
+    },
+    upload: function() {
+      let that = this;
+      if (
+        !isEmpty(this.upload_form.name) &&
+        !isEmpty(this.upload_form.content) &&
+        !isEmpty(this.upload_form.data)
+      ) {
+        let formData = new window.FormData();
+        formData.append("image", this.upload_form.data, ".jpg");
+        formData.append("name", this.upload_form.name);
+        formData.append("content", this.upload_form.content);
+        this.$http.post(Api.UPLOAD, formData).then(
+          response => {
+            if (response.ok && response.body.code == "201") {
+              that.showSnap("success", response.body.message);
+            } else {
+              that.showSnap("error", "上传失败");
+            }
+          },
+          () => {
+            that.showSnap("error", "上传失败");
+          }
+        );
+      } else {
+        that.showSnap("error", "请保证您的明信片完整");
+      }
     }
   }
 };
@@ -368,5 +410,9 @@ export default {
   z-index: 100;
   background: #409eff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.dialog_upload_main{
+  padding: 20px;
 }
 </style>

@@ -16,7 +16,6 @@
                 </div>
                 <!--弹窗关闭按钮-->
                 <div class="foot_close " @click="closeMyself">
-                    <div class="close_img back"></div>
                 </div>
             </div>
         </transition>
@@ -111,22 +110,21 @@ export default {
   .dialog_head {
     // 头部title的背景 居中圆角等属性。
     // 没有图片就把background-image注释掉
-    background-image: url("/assets/add.png");
-    width: 86.5%;
+    // background-image: url("/assets/add.png");
+    background: #409eff;
+    width: 61.8%;
     height: 43px;
     display: flex;
     justify-content: center;
     align-items: center;
+    color: #ffffff;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
   }
   .dialog_main {
     // 主体内容样式设置
     background: #ffffff;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    width: 86.5%;
+    width: 61.8%;
     padding: 22px 0 47px 0;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
@@ -135,16 +133,11 @@ export default {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background: #fcca03;
-    display: flex;
-    justify-content: center;
-    align-content: center;
+    background: #409eff;
     margin-top: -25px;
-    .close_img {
-      background-image: url("/assets/dialog_close.svg");
-      width: 42px;
-      height: 42px;
-    }
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url("../assets/dialog_close.svg");
   }
 }
 </style>
