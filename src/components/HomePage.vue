@@ -86,10 +86,8 @@
     </div>
     <!-- 悬浮球 -->
     <div id="float-ball" @click="showUploadWorkDialog">
-
     </div>
-    <work-dialog :is-show="isShowWorkArea"   @on-close="closeDialog">
-
+    <work-dialog :is-show="isShowWorkArea" @on-close="closeDialog">
     </work-dialog>
   </div>
 </template>
@@ -114,7 +112,7 @@ export default {
       items,
       cards,
       works,
-      isShowWorkArea:false
+      isShowWorkArea: false
     };
   },
   computed: {
@@ -140,6 +138,9 @@ export default {
     },
     showUploadWorkDialog: function() {
       this.isShowWorkArea = true;
+    },
+    closeDialog:function(){
+      this.isShowWorkArea = false;
     }
   }
 };
