@@ -96,7 +96,7 @@ exports.cards = [
   }
 ];
 
-exports.works = [
+works = [
   {
     workId: "",
     imgurl:
@@ -117,4 +117,9 @@ exports.works = [
     like: 2,
     share: 2
   },
+  exports.upload_form = {
+    data: "",
+    content: "",
+    name: ""
+  }
 ];
