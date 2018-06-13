@@ -96,7 +96,7 @@ exports.cards = [
   }
 ];
 
-works = [
+exports.works = [
   {
     workId: "",
     imgurl:
@@ -116,10 +116,11 @@ works = [
     name: "心诏不宣@",
     like: 2,
     share: 2
-  },
-  exports.upload_form = {
-    data: "",
-    content: "",
-    name: ""
   }
 ];
+
+exports.upload_form = {
+  data: "",
+  content: "",
+  name: ""
+}
