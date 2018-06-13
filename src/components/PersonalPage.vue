@@ -46,13 +46,16 @@ export default {
     secelted(data) {
       console.log(data);
       this.upload_form.data = data;
+      this.upload_form.name = "111";
+      this.upload_form.content = "我们";
+      this.upload();
     },
     upload: function() {
       let that = this;
       if (
-        isEmpty(this.upload_form.name) &&
-        isEmpty(this.upload_form.content) &&
-        isEmpty(this.upload_form.data)
+        !isEmpty(this.upload_form.name) &&
+        !isEmpty(this.upload_form.content) &&
+        !isEmpty(this.upload_form.data)
       ) {
         let formData = new window.FormData();
         formData.append("image", this.upload_form.data, ".jpg");

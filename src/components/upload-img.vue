@@ -69,8 +69,17 @@ export default {
       var tctx = tCanvas.getContext("2d");
 
       let initSize = img.src.length;
-      let width = document.querySelector(".upload").offsetWidth;
-      let height = document.querySelector(".upload").offsetHeight;
+      let standard = document.querySelector(".upload").offsetWidth;
+      let width = img.naturalWidth;
+      let height = img.naturalHeight;
+
+      height = standard * height / width;
+
+      width = standard;
+
+      console.log("w:" + width + "h:" + height);
+      // let width =
+      // let height = document.querySelector(".upload").offsetHeight;
 
       //如果图片大于四百万像素，计算压缩比并将大小压至400万以下
       var ratio;
