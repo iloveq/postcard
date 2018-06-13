@@ -85,11 +85,12 @@
       </el-alert>
     </div>
     <!-- 悬浮球 -->
-    <div id="float-ball">
+    <div id="float-ball" @click="showUploadWorkDialog">
 
     </div>
-    
+    <work-dialog :is-show="isShowWorkArea"   @on-close="closeDialog">
 
+    </work-dialog>
   </div>
 </template>
 
@@ -101,7 +102,8 @@ import Api from "../data/api.js";
 export default {
   name: "HomePage",
   components: {
-    toolbar: require("../components/Toolbar.vue").default
+    toolbar: require("../components/Toolbar.vue").default,
+    workDialog: require("../components/Dialog.vue").default
   },
   data: function() {
     return {
@@ -111,7 +113,8 @@ export default {
       snap_text: "欢迎来到微笑明信片，让我们一起分享快乐吧 φ(゜▽゜*)♪",
       items,
       cards,
-      works
+      works,
+      isShowWorkArea:false
     };
   },
   computed: {
@@ -134,6 +137,9 @@ export default {
     goPersonalPage: function() {
       console.log(this);
       this.$router.push({ path: "/personal" });
+    },
+    showUploadWorkDialog: function() {
+      this.isShowWorkArea = true;
     }
   }
 };

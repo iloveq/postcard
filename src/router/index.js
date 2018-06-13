@@ -42,6 +42,7 @@ export default new Router({
       path: '/snapbar',
       name: 'snapbar',
       component: snapbar
-    },
+    }
+
   ]
 })
