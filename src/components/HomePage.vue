@@ -84,6 +84,11 @@
       <el-alert v-else-if="type === 'error'" :title="snap_text" type="error" center>
       </el-alert>
     </div>
+    <!-- 悬浮球 -->
+    <div id="float-ball">
+
+    </div>
+    
 
   </div>
 </template>
@@ -91,11 +96,7 @@
 <script>
 import { isEmpty, getStore } from "../utils.js";
 import { mapState, mapMutations } from "vuex";
-import {
-  items,
-  cards,
-  works
-} from "../data/localData.js";
+import { items, cards, works } from "../data/localData.js";
 import Api from "../data/api.js";
 export default {
   name: "HomePage",
@@ -348,5 +349,17 @@ export default {
   bottom: 0;
   width: 100%;
   z-index: 100;
+}
+
+#float-ball {
+  position: fixed;
+  border-radius: 50%;
+  bottom: 100px;
+  right: 100px;
+  width: 60px;
+  height: 60px;
+  z-index: 100;
+  background: #409eff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 </style>
