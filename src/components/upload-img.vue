@@ -69,7 +69,7 @@ export default {
       var tctx = tCanvas.getContext("2d");
 
       let initSize = img.src.length;
-      let standard = document.querySelector(".upload").offsetWidth;
+      let standard = 200;
       let width = img.naturalWidth;
       let height = img.naturalHeight;
 
@@ -78,7 +78,6 @@ export default {
       width = standard;
 
       console.log("w:" + width + "h:" + height);
-      
 
       //如果图片大于四百万像素，计算压缩比并将大小压至400万以下
       var ratio;
@@ -225,11 +224,14 @@ export default {
 </script>
 <style scoped>
 .upload {
+  background-image: url(../assets/add.svg);
+  background-repeat: no-repeat;
+  background-position:center;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 220px;
-  height: 350px;
+  width: 100px;
+  height: 140px;
   position: relative;
   border: 1px solid #409eff;
   box-sizing: border-box;
