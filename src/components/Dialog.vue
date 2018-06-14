@@ -21,7 +21,6 @@
 </template> 
 
 <script>
-/** 弹窗组件*/
 export default {
   name: "dialogComponent",
   props: {
