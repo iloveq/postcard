@@ -85,7 +85,7 @@
       </el-alert>
     </div>
     <!-- 悬浮球 -->
-    <div id="float-ball" @click="showUploadWorkDialog">
+    <div id="float-ball" @click="showUploadWorkDialog" v-show="showFloatBall">
     </div>
     <work-dialog :is-show="isShowWorkArea" @on-close="closeDialog">
       <div class="dialog_upload_header" slot="header">
@@ -134,7 +134,9 @@ export default {
       cards,
       works,
       isShowWorkArea: false,
-      surplus: 140
+      surplus: 140,
+      start_pos: 0,
+      showFloatBall:true
     };
   },
   computed: {
@@ -144,7 +146,27 @@ export default {
       token: "token"
     })
   },
+  mounted() {
+    window.addEventListener("scroll", this.handleScroll);
+  },
+  destroyed() {
+    window.removeEventListener("scroll", this.handleScroll);
+    this.start_pos = 0;
+  },
   methods: {
+    handleScroll:function() {
+      let scrollTop = window.pageYOffset ||document.documentElement.scrollTop ||document.body.scrollTop;
+      let offsetTop = document.querySelector("#float-ball").offsetTop;
+      console.log("scrollTop:"+scrollTop);
+      if(scrollTop >this.start_pos){
+        this.showFloatBall = false;
+      }else{
+        this.showFloatBall = true;
+      }
+      this.start_pos = scrollTop;
+   
+
+    },
     ...mapMutations(["RECORD_USERINFO"]),
     showSnap: function(type, text) {
       this.show_snap = true;
@@ -190,7 +212,7 @@ export default {
             } else {
               that.showSnap("success", response.body.message);
               that.upload_form.data = "";
-              that.upload_form.content="";
+              that.upload_form.content = "";
               that.upload_form.name = "";
               that.closeDialog();
             }
@@ -433,6 +455,9 @@ export default {
   z-index: 100;
   background: #409eff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  background-image: url("../assets/publish.svg");
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .dialog_upload_main {
