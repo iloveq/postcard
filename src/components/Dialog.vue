@@ -1,23 +1,23 @@
 <template>
-    <div class="dialog">
-        <!-- 遮罩 -->
-        <div class="dialog-cover back" v-if="isShow" @click="closeMyself"></div>
-        <!-- 动画效果 -->
-        <transition name="drop">
-            <!-- props 控制内容的样式  -->
-            <div class="dialog-content" :style="{top:topDistance+'%',width:widNum+'%',left:leftSite+'%'}" v-if="isShow">
-                <div class="dialog_head back ">
-                    <slot name="header">提示信息</slot>
-                </div>
-                <div class="dialog_main " :style="{paddingTop:pdt+'px',paddingBottom:pdb+'px'}">
-                    <slot name="main">弹窗内容</slot>
-                </div>
-                <!-- 弹窗关闭按钮 -->
-                <div class="foot_close " @click="closeMyself">
-                </div>
-            </div>
-        </transition>
-    </div>
+  <div class="dialog">
+    <!-- 遮罩 -->
+    <div class="dialog-cover back" v-if="isShow" @click="closeMyself"></div>
+    <!-- 动画效果 -->
+    <transition name="drop">
+      <!-- props 控制内容的样式  -->
+      <div class="dialog-content" :style="{top:topDistance+'%',width:widNum+'%',left:leftSite+'%'}" v-if="isShow">
+        <div class="dialog_head back ">
+          <slot name="header">提示信息</slot>
+        </div>
+        <div class="dialog_main " :style="{paddingTop:pdt+'px',paddingBottom:pdb+'px'}">
+          <slot name="main">弹窗内容</slot>
+        </div>
+        <!-- 弹窗关闭按钮 -->
+        <div class="foot_close " @click="closeMyself">
+        </div>
+      </div>
+    </transition>
+  </div>
 </template> 
 
 <script>
@@ -58,18 +58,32 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.drop-enter-active {
-  transition: all 0.5s ease;
-}
-.drop-leave-active {
-  transition: all 0.3s ease;
-}
-.drop-enter {
-  transform: translateY(-500px);
-}
-.drop-leave-active {
-  transform: translateY(-500px);
-}
+// .drop-enter-active {
+//   animation: In 0.5s linear;
+// }
+// .drop-leave-active {
+//   animation: Out 0.5s linear;
+// }
+
+// @keyframes In {
+//   0% {
+//     transform:translate(780px, 780px) scale(0) ;
+//   }
+//   100% {
+//     transform: translate(480px, 480px) scale(1);
+//   }
+ 
+// }
+
+// @keyframes Out {
+//    0% {
+//     transform: translate(480px, 480px) scale(1);
+//   }
+//   100% {
+//     transform: translate(780px, 780px) scale(0);
+//   }
+// }
+
 // 最外层 设置position定位
 .dialog {
   position: relative;

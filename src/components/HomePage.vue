@@ -158,14 +158,13 @@ export default {
       let scrollTop = window.pageYOffset ||document.documentElement.scrollTop ||document.body.scrollTop;
       let offsetTop = document.querySelector("#float-ball").offsetTop;
       console.log("scrollTop:"+scrollTop);
+      console.log(offsetTop);
       if(scrollTop >this.start_pos){
         this.showFloatBall = false;
       }else{
         this.showFloatBall = true;
       }
       this.start_pos = scrollTop;
-   
-
     },
     ...mapMutations(["RECORD_USERINFO"]),
     showSnap: function(type, text) {
