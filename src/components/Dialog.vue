@@ -1,20 +1,18 @@
 <template>
     <div class="dialog">
-        <!--外层的遮罩 点击事件用来关闭弹窗，isShow控制弹窗显示 隐藏的props-->
+        <!-- 遮罩 -->
         <div class="dialog-cover back" v-if="isShow" @click="closeMyself"></div>
-        <!-- transition 这里可以加一些简单的动画效果 -->
+        <!-- 动画效果 -->
         <transition name="drop">
-            <!--style 通过props 控制内容的样式  -->
+            <!-- props 控制内容的样式  -->
             <div class="dialog-content" :style="{top:topDistance+'%',width:widNum+'%',left:leftSite+'%'}" v-if="isShow">
                 <div class="dialog_head back ">
-                    <!--弹窗头部 title-->
                     <slot name="header">提示信息</slot>
                 </div>
                 <div class="dialog_main " :style="{paddingTop:pdt+'px',paddingBottom:pdb+'px'}">
-                    <!--弹窗的内容-->
                     <slot name="main">弹窗内容</slot>
                 </div>
-                <!--弹窗关闭按钮-->
+                <!-- 弹窗关闭按钮 -->
                 <div class="foot_close " @click="closeMyself">
                 </div>
             </div>
@@ -37,22 +35,18 @@ export default {
       default: 86.5
     },
     leftSite: {
-      // 左定位
       type: Number,
       default: 6.5
     },
     topDistance: {
-      //top上边距
       type: Number,
       default: 18
     },
     pdt: {
-      //上padding
       type: Number,
       default: 30
     },
     pdb: {
-      //下padding
       type: Number,
       default: 30
     }
@@ -65,21 +59,16 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-/** 弹窗动画*/
 .drop-enter-active {
-  // 动画进入过程：0.5s
   transition: all 0.5s ease;
 }
 .drop-leave-active {
-  // 动画离开过程：0.5s
   transition: all 0.3s ease;
 }
 .drop-enter {
-  //动画之前的位置
   transform: translateY(-500px);
 }
 .drop-leave-active {
-  //动画之后的位置
   transform: translateY(-500px);
 }
 // 最外层 设置position定位
@@ -88,7 +77,7 @@ export default {
   color: #2e2c2d;
   font-size: 16px;
 }
-// 遮罩 设置背景层，z-index值要足够大确保能覆盖，高度 宽度设置满 做到全屏遮罩
+// 遮罩
 .dialog-cover {
   background: rgba(0, 0, 0, 0.8);
   position: fixed;
@@ -98,7 +87,7 @@ export default {
   width: 100%;
   height: 100%;
 }
-// 内容层 z-index要比遮罩大，否则会被遮盖，
+// 内容
 .dialog-content {
   position: fixed;
   top: 35%;
@@ -108,9 +97,6 @@ export default {
   align-items: center;
   z-index: 300;
   .dialog_head {
-    // 头部title的背景 居中圆角等属性。
-    // 没有图片就把background-image注释掉
-    // background-image: url("/assets/add.png");
     background: #409eff;
     width: 600px;
     height: 43px;
@@ -122,7 +108,6 @@ export default {
     border-top-right-radius: 10px;
   }
   .dialog_main {
-    // 主体内容样式设置
     background: #ffffff;
     width: 600px;
     border-bottom-left-radius: 10px;
