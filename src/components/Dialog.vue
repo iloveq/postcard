@@ -58,31 +58,26 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-// .drop-enter-active {
-//   animation: In 0.5s linear;
-// }
-// .drop-leave-active {
-//   animation: Out 0.5s linear;
-// }
+.drop-enter-active {
+  animation: In 0.5s linear;
+}
+.drop-leave-active {
+  animation: Out 0.5s linear;
+}
 
-// @keyframes In {
-//   0% {
-//     transform:translate(780px, 780px) scale(0) ;
-//   }
-//   100% {
-//     transform: translate(480px, 480px) scale(1);
-//   }
+@keyframes In {
+  0% {
+    transform: matrix(0.1, 0, 0, 0.1, 780, 780); ;
+  }
  
-// }
+}
 
-// @keyframes Out {
-//    0% {
-//     transform: translate(480px, 480px) scale(1);
-//   }
-//   100% {
-//     transform: translate(780px, 780px) scale(0);
-//   }
-// }
+@keyframes Out {
+ 
+  100% {
+    transform: matrix(0.1, 0, 0, 0.1, 780, 780); ;
+  }
+}
 
 // 最外层 设置position定位
 .dialog {
