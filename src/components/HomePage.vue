@@ -89,10 +89,23 @@
     </div>
     <work-dialog :is-show="isShowWorkArea" @on-close="closeDialog">
       <div class="dialog_upload_header" slot="header">
-         我的明信片
+        我的明信片:D
       </div>
-       <div class="dialog_upload_main" slot="main">
-          <imgUpload v-on:select-complete="secelted"></imgUpload>
+      <div class="dialog_upload_main" slot="main">
+        <imgUpload v-on:select-complete="secelted"></imgUpload>
+        <div class="work-content">
+          <!-- 用户信息 -->
+          <div class="work-username">
+            作者：{{username}}
+          </div>
+          <!-- 添加文字 -->
+          <div class="edit-content">
+            <textarea name="text" rows="3" class="card-add-content" placeholder="这里写下你想说的话（*＾-＾*）" v-bind:maxlength="140" @input="descArea" v-model="upload_form.content"></textarea>
+            <span style="font-size:10px;float:right;color: #409eff;">剩余字数 {{surplus}}/140</span>
+          </div>
+          <!-- 发布 -->
+          <el-button id="publish" size="small" type="primary" @click="upload">点击上传</el-button>
+        </div>
       </div>
     </work-dialog>
   </div>
@@ -101,14 +114,14 @@
 <script>
 import { isEmpty, getStore } from "../utils.js";
 import { mapState, mapMutations } from "vuex";
-import { items, cards, works,upload_form } from "../data/localData.js";
+import { items, cards, works, upload_form } from "../data/localData.js";
 import Api from "../data/api.js";
 export default {
   name: "HomePage",
   components: {
     toolbar: require("../components/Toolbar.vue").default,
     workDialog: require("../components/Dialog.vue").default,
-    imgUpload:require("../components/upload-img.vue").default
+    imgUpload: require("../components/upload-img.vue").default
   },
   data: function() {
     return {
@@ -120,7 +133,8 @@ export default {
       items,
       cards,
       works,
-      isShowWorkArea: false
+      isShowWorkArea: false,
+      surplus: 140
     };
   },
   computed: {
@@ -147,18 +161,19 @@ export default {
     showUploadWorkDialog: function() {
       this.isShowWorkArea = true;
     },
-    closeDialog:function(){
+    closeDialog: function() {
       this.isShowWorkArea = false;
     },
     secelted(data) {
       console.log(data);
       this.upload_form.data = data;
-      this.upload_form.name = "111";
-      this.upload_form.content = "我们";
-      this.upload();
     },
     upload: function() {
       let that = this;
+      this.upload_form.name = this.username;
+      console.log(this.upload_form.data);
+      console.log(this.upload_form.name);
+      console.log(this.upload_form.content);
       if (
         !isEmpty(this.upload_form.name) &&
         !isEmpty(this.upload_form.content) &&
@@ -171,9 +186,13 @@ export default {
         this.$http.post(Api.UPLOAD, formData).then(
           response => {
             if (response.ok && response.body.code == "201") {
-              that.showSnap("success", response.body.message);
-            } else {
               that.showSnap("error", "上传失败");
+            } else {
+              that.showSnap("success", response.body.message);
+              that.upload_form.data = "";
+              that.upload_form.content="";
+              that.upload_form.name = "";
+              that.closeDialog();
             }
           },
           () => {
@@ -183,12 +202,16 @@ export default {
       } else {
         that.showSnap("error", "请保证您的明信片完整");
       }
+    },
+    descArea() {
+      var textVal = this.upload_form.content.length;
+      this.surplus = 140 - textVal;
     }
   }
 };
 </script>
 
-<style>
+<style >
 #home {
   font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC,
     Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei,
@@ -412,7 +435,41 @@ export default {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
-.dialog_upload_main{
-  padding: 20px;
+.dialog_upload_main {
+  padding: 50px;
+  display: flex;
+  flex-direction: row;
+}
+.work-content {
+  margin-left: 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+.work-username {
+  padding: 6px;
+  font-size: 10px;
+  line-height: 18px;
+  text-align: left;
+  font-weight: 600;
+  color: #409eff;
+}
+
+.edit-content {
+  margin-top: 5px;
+}
+
+.card-add-content {
+  display: block;
+  margin: auto;
+  width: 215px;
+  height: 100px;
+  padding: 6px 12px;
+  font-size: 12px;
+  line-height: 1.42858;
+}
+
+#publish {
+  margin-top: 30px;
 }
 </style>

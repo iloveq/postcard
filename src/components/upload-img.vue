@@ -230,8 +230,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100px;
-  height: 140px;
+  width: 200px;
+  height: 280px;
   position: relative;
   border: 1px solid #409eff;
   box-sizing: border-box;

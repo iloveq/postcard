@@ -44,17 +44,17 @@ export default {
     topDistance: {
       //top上边距
       type: Number,
-      default: 35
+      default: 18
     },
     pdt: {
       //上padding
       type: Number,
-      default: 22
+      default: 30
     },
     pdb: {
       //下padding
       type: Number,
-      default: 47
+      default: 30
     }
   },
   methods: {
@@ -112,7 +112,7 @@ export default {
     // 没有图片就把background-image注释掉
     // background-image: url("/assets/add.png");
     background: #409eff;
-    width: 61.8%;
+    width: 600px;
     height: 43px;
     display: flex;
     justify-content: center;
@@ -124,8 +124,7 @@ export default {
   .dialog_main {
     // 主体内容样式设置
     background: #ffffff;
-    width: 61.8%;
-    padding: 22px 0 47px 0;
+    width: 600px;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
   }
