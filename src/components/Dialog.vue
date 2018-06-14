@@ -25,7 +25,7 @@
 <script>
 /** 弹窗组件*/
 export default {
-  name: "dialog",
+  name: "dialogComponent",
   props: {
     isShow: {
       type: Boolean,
