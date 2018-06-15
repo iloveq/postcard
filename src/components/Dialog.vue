@@ -2,21 +2,18 @@
   <div class="dialog">
     <!-- 遮罩 -->
     <div class="dialog-cover back" v-if="isShow" @click="closeMyself"></div>
-    <!-- 动画效果 -->
-    <transition name="drop">
-      <!-- props 控制内容的样式  -->
-      <div class="dialog-content" :style="{top:topDistance+'%',width:widNum+'%',left:leftSite+'%'}" v-if="isShow">
-        <div class="dialog_head back ">
-          <slot name="header">提示信息</slot>
-        </div>
-        <div class="dialog_main " :style="{paddingTop:pdt+'px',paddingBottom:pdb+'px'}">
-          <slot name="main">弹窗内容</slot>
-        </div>
-        <!-- 弹窗关闭按钮 -->
-        <div class="foot_close " @click="closeMyself">
-        </div>
+    <!-- props 控制内容的样式  -->
+    <div class="dialog-content" :style="{top:topDistance+'%',width:widNum+'%',left:leftSite+'%'}" v-if="isShow">
+      <div class="dialog_head back ">
+        <slot name="header">header</slot>
       </div>
-    </transition>
+      <div class="dialog_main " :style="{paddingTop:pdt+'px',paddingBottom:pdb+'px'}">
+        <slot name="main">body</slot>
+      </div>
+      <!-- 弹窗关闭按钮 -->
+      <div class="foot_close " @click="closeMyself">
+      </div>
+    </div>
   </div>
 </template> 
 
@@ -58,28 +55,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.drop-enter-active {
-  animation: In 0.5s linear;
-}
-.drop-leave-active {
-  animation: Out 0.5s linear;
-}
-
-@keyframes In {
-  0% {
-    transform: matrix(0.1, 0, 0, 0.1, 780, 780); ;
-  }
- 
-}
-
-@keyframes Out {
- 
-  100% {
-    transform: matrix(0.1, 0, 0, 0.1, 780, 780); ;
-  }
-}
-
-// 最外层 设置position定位
 .dialog {
   position: relative;
   color: #2e2c2d;

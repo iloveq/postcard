@@ -87,10 +87,13 @@
     <!-- 悬浮球 -->
     <div id="float-ball" @click="showUploadWorkDialog" v-show="showFloatBall">
     </div>
+    <!-- work 对话框 -->
     <work-dialog :is-show="isShowWorkArea" @on-close="closeDialog">
+      <!-- title -->
       <div class="dialog_upload_header" slot="header">
         我的明信片:D
       </div>
+      <!-- work 内容 -->
       <div class="dialog_upload_main" slot="main">
         <imgUpload v-on:select-complete="secelted"></imgUpload>
         <div class="work-content">
@@ -108,6 +111,7 @@
         </div>
       </div>
     </work-dialog>
+
   </div>
 </template>
 
@@ -136,7 +140,9 @@ export default {
       isShowWorkArea: false,
       surplus: 140,
       start_pos: 0,
-      showFloatBall:true
+      showFloatBall: true,
+      dest_x: 0,
+      dest_y: 0
     };
   },
   computed: {
@@ -148,20 +154,26 @@ export default {
   },
   mounted() {
     window.addEventListener("scroll", this.handleScroll);
+    this.dest_x = document.getElementById("float-ball").offsetLeft + 30;
+    this.dest_y = document.getElementById("float-ball").offsetTop + 30;
+    console.log("x:" + this.dest_x + "         y:" + this.dest_y);
   },
   destroyed() {
     window.removeEventListener("scroll", this.handleScroll);
     this.start_pos = 0;
   },
   methods: {
-    handleScroll:function() {
-      let scrollTop = window.pageYOffset ||document.documentElement.scrollTop ||document.body.scrollTop;
+    handleScroll: function() {
+      let scrollTop =
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop;
       let offsetTop = document.querySelector("#float-ball").offsetTop;
-      console.log("scrollTop:"+scrollTop);
+      console.log("scrollTop:" + scrollTop);
       console.log(offsetTop);
-      if(scrollTop >this.start_pos){
+      if (scrollTop > this.start_pos) {
         this.showFloatBall = false;
-      }else{
+      } else {
         this.showFloatBall = true;
       }
       this.start_pos = scrollTop;
@@ -227,7 +239,8 @@ export default {
     descArea() {
       var textVal = this.upload_form.content.length;
       this.surplus = 140 - textVal;
-    }
+    },
+    enter(el, done) {}
   }
 };
 </script>
