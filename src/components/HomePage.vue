@@ -169,8 +169,8 @@ export default {
         document.documentElement.scrollTop ||
         document.body.scrollTop;
       let offsetTop = document.querySelector("#float-ball").offsetTop;
-      console.log("scrollTop:" + scrollTop);
-      console.log(offsetTop);
+      //console.log("scrollTop:" + scrollTop);
+      //console.log(offsetTop);
       if (scrollTop > this.start_pos) {
         this.showFloatBall = false;
       } else {
@@ -222,10 +222,21 @@ export default {
               that.showSnap("error", "上传失败");
             } else {
               that.showSnap("success", response.body.message);
+              that.closeDialog();
+              that.works.splice(0,0, {
+                workId: response.body.data._id,
+                imgurl: response.body.data.imgurl,
+                userId: "",
+                content: response.body.data.content,
+                content: response.body.data.username,
+                like: response.body.data.like,
+                share: response.body.data.share
+              });
+              console.log(response.body);
+              console.log(that.works);
               that.upload_form.data = "";
               that.upload_form.content = "";
               that.upload_form.name = "";
-              that.closeDialog();
             }
           },
           () => {
@@ -240,7 +251,6 @@ export default {
       var textVal = this.upload_form.content.length;
       this.surplus = 140 - textVal;
     },
-    enter(el, done) {}
   }
 };
 </script>
