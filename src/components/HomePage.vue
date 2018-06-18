@@ -228,7 +228,7 @@ export default {
                 imgurl: response.body.data.imgurl,
                 userId: "",
                 content: response.body.data.content,
-                content: response.body.data.username,
+                name: response.body.data.username,
                 like: response.body.data.like,
                 share: response.body.data.share
               });
