@@ -185,13 +185,13 @@ export default {
     initCards: function() {
       let that = this;
       console.log("HHH");
-      this.$http.post(Api.GETCARDLIST, { name: this.username }).then(
+      this.$http.post(Api.GETCARDLIST, { name: this.username,max:"100" }).then(
         response => {
           if (response.ok && response.code == "201") {
             that.showSnap("error", "获取失败");
           } else {
             console.log(response.body);
-            that.works = response.body.data;
+            that.cards = response.body.data;
             that.showSnap("success", "获取成功");
           }
         },
