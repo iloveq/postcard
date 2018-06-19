@@ -157,12 +157,29 @@ export default {
     this.dest_x = document.getElementById("float-ball").offsetLeft + 30;
     this.dest_y = document.getElementById("float-ball").offsetTop + 30;
     console.log("x:" + this.dest_x + "         y:" + this.dest_y);
+    this.initWorks();
   },
   destroyed() {
     window.removeEventListener("scroll", this.handleScroll);
     this.start_pos = 0;
   },
   methods: {
+    initWorks:function(){
+      let that = this;
+      console.log("HHH");
+       this.$http.post(Api.GETWORKLIST, {name:this.username}).then(
+          response => {
+            if (response.ok&&response.code=='201') {
+               that.showSnap("error", "获取失败");
+            }else{
+              console.log(response.body);
+            }
+          },
+          () => {
+            that.showSnap("error", "获取失败");
+          }
+        );
+    },
     handleScroll: function() {
       let scrollTop =
         window.pageYOffset ||
