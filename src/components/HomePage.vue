@@ -173,6 +173,7 @@ export default {
                that.showSnap("error", "获取失败");
             }else{
               console.log(response.body);
+              that.works = response.body.data;
             }
           },
           () => {
