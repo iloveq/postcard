@@ -37,7 +37,7 @@
     </div>
     <!-- 我的作品 -->
     <h4 v-show="works.length>0" style="width: 970px;background: #fff;margin-top: 30px;margin-left: auto;margin-right: auto;">我的作品</h4>
-    <div id="card-list" v-show="works.length>0">
+    <div class="card-list" v-show="works.length>0">
       <div class="card-item" v-for="(item,index) in works" :key="index">
         <img class="card-item-img" :src="item.imgurl">
         <div class="card-item-content">
@@ -53,7 +53,7 @@
     </div>
     <!-- 优秀作品推荐 -->
     <h4 style="width: 970px;background: #fff;margin-top: 30px;margin-left: auto;margin-right: auto;">热门推荐</h4>
-    <div id="card-list">
+    <div class="card-list">
       <div class="card-item" v-for="(item,index) in cards" :key="index">
         <img class="card-item-img" :src="item.imgurl">
         <div class="card-item-userinfo">
@@ -182,20 +182,22 @@ export default {
     initCards: function() {
       let that = this;
       console.log("HHH");
-      this.$http.post(Api.GETCARDLIST, { name: this.username,max:"100" }).then(
-        response => {
-          if (response.ok && response.code == "201") {
+      this.$http
+        .post(Api.GETCARDLIST, { name: this.username, max: "100" })
+        .then(
+          response => {
+            if (response.ok && response.code == "201") {
+              that.showSnap("error", "获取失败");
+            } else {
+              console.log(response.body);
+              that.cards = response.body.data;
+              that.showSnap("success", "获取成功");
+            }
+          },
+          () => {
             that.showSnap("error", "获取失败");
-          } else {
-            console.log(response.body);
-            that.cards = response.body.data;
-            that.showSnap("success", "获取成功");
           }
-        },
-        () => {
-          that.showSnap("error", "获取失败");
-        }
-      );
+        );
     },
     handleScroll: function() {
       let scrollTop =
@@ -386,28 +388,32 @@ export default {
   font-weight: 600;
   color: #586069;
 }
-#card-list {
+.card-list {
   position: relative;
-  width: 1000px;
+  width: 60%;
   background: #fff;
   margin-top: 30px;
   margin-left: auto;
   margin-right: auto;
-  display: flex;
-  flex-wrap: wrap;
+  column-width: 250px;
+  -webkit-column-width: 250px;
+  column-gap: 5px;
+  -webkit-column-gap: 5px;
 }
-#card-list:after {
+.card-list:after {
   content: "";
   flex-grow: 999999999;
 }
 .card-item {
-  flex-grow: 1;
+  break-inside: avoid;
+  width: 250px;
   margin: 5px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   align-items: center;
   padding: 10px;
   background-color: #fff;
 }
+
 .card-item-img {
   width: 200px;
   object-fit: cover;
