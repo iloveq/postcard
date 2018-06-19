@@ -299,7 +299,6 @@ export default {
   -webkit-tap-highlight-color: rgba(26, 26, 26, 0);
   margin-top: 20px;
 }
-
 #user_info {
   width: 800px;
   background: #fff;
@@ -309,7 +308,6 @@ export default {
   margin-left: auto;
   margin-right: auto;
 }
-
 .hat {
   width: 100px;
   height: 100px;
@@ -320,7 +318,6 @@ export default {
   left: 15px;
   top: -40px;
 }
-
 .header {
   height: 100px;
   background: #fff;
@@ -329,7 +326,6 @@ export default {
   margin-right: 236px;
   border-right: 1px solid #ededed;
 }
-
 .head-avatar {
   background: #fff;
   border-radius: 4px;
@@ -338,7 +334,6 @@ export default {
   top: -35px;
   width: 90px;
 }
-
 .head-name {
   background: #fff;
   border-radius: 4px;
@@ -348,7 +343,6 @@ export default {
   width: 100px;
   text-align: center;
 }
-
 .head-desc {
   height: 100px;
   line-height: 1;
@@ -356,7 +350,6 @@ export default {
   display: table-cell;
   vertical-align: middle;
 }
-
 #edit-mine-info {
   margin-bottom: 20px;
   margin-right: 20px;
@@ -364,7 +357,6 @@ export default {
   right: 0;
   bottom: 0;
 }
-
 .tail-nav {
   width: 236px;
   height: 100px;
@@ -374,13 +366,11 @@ export default {
   align-items: center;
   display: flex;
 }
-
 .nav-item {
   flex: 1;
   display: block;
   text-align: center;
 }
-
 .Item {
   text-decoration: none;
   font-size: 14px;
@@ -389,7 +379,6 @@ export default {
   text-align: center;
   border-bottom: 2px solid transparent;
 }
-
 .Counter {
   line-height: 1;
   padding: 2px 5px;
@@ -397,7 +386,6 @@ export default {
   font-weight: 600;
   color: #586069;
 }
-
 #card-list {
   position: relative;
   width: 1000px;
@@ -408,12 +396,10 @@ export default {
   display: flex;
   flex-wrap: wrap;
 }
-
 #card-list:after {
   content: "";
   flex-grow: 999999999;
 }
-
 .card-item {
   flex-grow: 1;
   margin: 5px;
@@ -422,14 +408,12 @@ export default {
   padding: 10px;
   background-color: #fff;
 }
-
 .card-item-img {
   width: 200px;
   object-fit: cover;
   min-width: 100%;
   background: white;
 }
-
 .card-item-userinfo {
   background: white;
   font-size: 10px;
@@ -438,7 +422,6 @@ export default {
   font-weight: 600;
   color: #409eff;
 }
-
 .card-item-content {
   padding: 6px 0;
   line-height: 18px;
@@ -448,12 +431,10 @@ export default {
   word-break: break-all;
   width: 220px;
 }
-
 .card-item-operator {
   margin: 10px 0;
   line-height: 1.35em;
 }
-
 .like {
   display: inline-block;
   width: auto;
@@ -462,7 +443,6 @@ export default {
   font-size: 12px;
   margin-right: 10px;
 }
-
 .like-icon {
   display: inline-block;
   width: 16px;
@@ -471,7 +451,6 @@ export default {
   vertical-align: bottom;
   background: url(/static/imgs/unlike.svg) 0 0 no-repeat;
 }
-
 .share {
   display: inline-block;
   width: auto;
@@ -480,7 +459,6 @@ export default {
   font-size: 12px;
   margin-right: 10px;
 }
-
 .share-icon {
   display: inline-block;
   width: 16px;
@@ -489,7 +467,6 @@ export default {
   vertical-align: bottom;
   background: url(/static/imgs/unshare.svg) 0 0 no-repeat;
 }
-
 #snap {
   left: 0;
   position: fixed;
@@ -497,7 +474,6 @@ export default {
   width: 100%;
   z-index: 100;
 }
-
 #float-ball {
   position: fixed;
   border-radius: 50%;
@@ -512,7 +488,6 @@ export default {
   background-position: center;
   background-repeat: no-repeat;
 }
-
 .dialog_upload_main {
   padding: 50px;
   display: flex;
@@ -523,7 +498,6 @@ export default {
   display: flex;
   flex-direction: column;
 }
-
 .work-username {
   padding: 6px;
   font-size: 10px;
@@ -532,11 +506,9 @@ export default {
   font-weight: 600;
   color: #409eff;
 }
-
 .edit-content {
   margin-top: 5px;
 }
-
 .card-add-content {
   display: block;
   margin: auto;
@@ -546,7 +518,6 @@ export default {
   font-size: 12px;
   line-height: 1.42858;
 }
-
 #publish {
   margin-top: 30px;
 }
