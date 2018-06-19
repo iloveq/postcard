@@ -40,9 +40,6 @@
     <div id="card-list" v-show="works.length>0">
       <div class="card-item" v-for="(item,index) in works" :key="index">
         <img class="card-item-img" :src="item.imgurl">
-        <div class="card-item-userinfo">
-          {{item.name}}
-        </div>
         <div class="card-item-content">
           {{item.content}}
         </div>
@@ -60,7 +57,7 @@
       <div class="card-item" v-for="(item,index) in cards" :key="index">
         <img class="card-item-img" :src="item.imgurl">
         <div class="card-item-userinfo">
-          {{item.name}}
+          {{item.username}}
         </div>
         <div class="card-item-content">
           {{item.content}}
@@ -261,11 +258,10 @@ export default {
               that.showSnap("success", response.body.message);
               that.closeDialog();
               that.works.splice(0, 0, {
-                workId: response.body.data._id,
-                imgurl: response.body.data.imgurl,
-                userId: "",
+                _id: response.body.data._id,
+                username: response.body.data.username,
                 content: response.body.data.content,
-                name: response.body.data.username,
+                imgurl: response.body.data.imgurl,
                 like: response.body.data.like,
                 share: response.body.data.share
               });
@@ -432,8 +428,6 @@ export default {
   object-fit: cover;
   min-width: 100%;
   background: white;
-  padding-bottom: 6px;
-  border-bottom: 1px solid #e1e1e1;
 }
 
 .card-item-userinfo {
