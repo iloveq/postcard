@@ -158,28 +158,47 @@ export default {
     this.dest_y = document.getElementById("float-ball").offsetTop + 30;
     console.log("x:" + this.dest_x + "         y:" + this.dest_y);
     this.initWorks();
+    this.initCards();
   },
   destroyed() {
     window.removeEventListener("scroll", this.handleScroll);
     this.start_pos = 0;
   },
   methods: {
-    initWorks:function(){
+    initWorks: function() {
       let that = this;
       console.log("HHH");
-       this.$http.post(Api.GETWORKLIST, {name:this.username}).then(
-          response => {
-            if (response.ok&&response.code=='201') {
-               that.showSnap("error", "获取失败");
-            }else{
-              console.log(response.body);
-              that.works = response.body.data;
-            }
-          },
-          () => {
+      this.$http.post(Api.GETWORKLIST, { name: this.username }).then(
+        response => {
+          if (response.ok && response.code == "201") {
             that.showSnap("error", "获取失败");
+          } else {
+            console.log(response.body);
+            that.works = response.body.data;
           }
-        );
+        },
+        () => {
+          that.showSnap("error", "获取失败");
+        }
+      );
+    },
+    initCards: function() {
+      let that = this;
+      console.log("HHH");
+      this.$http.post(Api.GETCARDLIST, { name: this.username }).then(
+        response => {
+          if (response.ok && response.code == "201") {
+            that.showSnap("error", "获取失败");
+          } else {
+            console.log(response.body);
+            that.works = response.body.data;
+            that.showSnap("success", "获取成功");
+          }
+        },
+        () => {
+          that.showSnap("error", "获取失败");
+        }
+      );
     },
     handleScroll: function() {
       let scrollTop =
@@ -241,7 +260,7 @@ export default {
             } else {
               that.showSnap("success", response.body.message);
               that.closeDialog();
-              that.works.splice(0,0, {
+              that.works.splice(0, 0, {
                 workId: response.body.data._id,
                 imgurl: response.body.data.imgurl,
                 userId: "",
@@ -268,7 +287,7 @@ export default {
     descArea() {
       var textVal = this.upload_form.content.length;
       this.surplus = 140 - textVal;
-    },
+    }
   }
 };
 </script>
