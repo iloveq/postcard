@@ -62,12 +62,12 @@
         <div class="card-item-content">
           {{item.content}}
         </div>
-        <p class="card-item-operator">
+        <div class="card-item-operator" >
           <span title="喜欢" class="like">
             <i class="like-icon"></i>{{item.like}}</span>
           <span title="分享" class="share">
             <i class="share-icon"></i>{{item.share}}</span>
-        </p>
+        </div>
       </div>
     </div>
     <!-- 浏览器底部toast -->
@@ -407,10 +407,9 @@ export default {
 .card-item {
   break-inside: avoid;
   width: 250px;
-  margin: 5px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   align-items: center;
-  padding: 10px;
+  padding: 5px;
   background-color: #fff;
 }
 
@@ -435,19 +434,16 @@ export default {
   font-size: 12px;
   word-wrap: break-word;
   word-break: break-all;
-  width: 220px;
+  width: 240px;
 }
-.card-item-operator {
-  margin: 10px 0;
-  line-height: 1.35em;
-}
+
 .like {
-  display: inline-block;
+ 
   width: auto;
   height: 12px;
   line-height: 16px;
-  font-size: 12px;
-  margin-right: 10px;
+  font-size: 8px;
+  margin-right: 8px;
 }
 .like-icon {
   display: inline-block;
@@ -458,12 +454,12 @@ export default {
   background: url(/static/imgs/unlike.svg) 0 0 no-repeat;
 }
 .share {
-  display: inline-block;
+
   width: auto;
   height: 12px;
   line-height: 16px;
-  font-size: 12px;
-  margin-right: 10px;
+  font-size: 8px;
+  margin-right: 5px;
 }
 .share-icon {
   display: inline-block;
