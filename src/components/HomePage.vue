@@ -45,7 +45,7 @@
         </div>
         <p class="card-item-operator">
           <span title="喜欢" class="like">
-            <i class="like-icon"></i>{{item.like}}</span>
+            <i class="like-icon" @click="like(item.workId)"></i>{{item.like}}</span>
           <span title="分享" class="share">
             <i class="share-icon"></i>{{item.share}}</span>
         </p>
@@ -62,8 +62,8 @@
         <div class="card-item-content">
           {{item.content}}
         </div>
-        <div class="card-item-operator" >
-          <span title="喜欢" class="like">
+        <div class="card-item-operator">
+          <span title="喜欢" class="like" @click="like(item.workId)">
             <i class="like-icon"></i>{{item.like}}</span>
           <span title="分享" class="share">
             <i class="share-icon"></i>{{item.share}}</span>
@@ -162,6 +162,7 @@ export default {
     this.start_pos = 0;
   },
   methods: {
+    ...mapMutations(["RECORD_USERINFO"]),
     initWorks: function() {
       let that = this;
       console.log("HHH");
@@ -214,7 +215,6 @@ export default {
       }
       this.start_pos = scrollTop;
     },
-    ...mapMutations(["RECORD_USERINFO"]),
     showSnap: function(type, text) {
       this.show_snap = true;
       this.type = type;
@@ -282,9 +282,27 @@ export default {
         that.showSnap("error", "请保证您的明信片完整");
       }
     },
-    descArea() {
+    descArea: function() {
       var textVal = this.upload_form.content.length;
       this.surplus = 140 - textVal;
+    },
+    like: function(workId) {
+      let that = this;
+      this.$http
+        .post(Api.LIKE, { username: this.username, type: "1", workId: workId })
+        .then(
+          response => {
+            if (response.ok && response.code == "201") {
+              that.showSnap("error", "点赞失败");
+            } else {
+              console.log(response.body);
+              that.works = response.body.data;
+            }
+          },
+          () => {
+            that.showSnap("error", "点赞失败");
+          }
+        );
     }
   }
 };
@@ -438,7 +456,6 @@ export default {
 }
 
 .like {
- 
   width: auto;
   height: 12px;
   line-height: 16px;
@@ -454,7 +471,6 @@ export default {
   background: url(/static/imgs/unlike.svg) 0 0 no-repeat;
 }
 .share {
-
   width: auto;
   height: 12px;
   line-height: 16px;
