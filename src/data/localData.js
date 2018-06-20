@@ -33,9 +33,15 @@ exports.items = [
   }
 ];
 
-exports.cards=[];
+exports.cards = [];
 
-exports.works=[];
+exports.works = [];
+
+exports.like_form = {
+  type: "",
+  workId: "",
+  username: ""
+};
 
 exports.upload_form = {
   data: "",

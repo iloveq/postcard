@@ -44,8 +44,8 @@
           {{item.content}}
         </div>
         <p class="card-item-operator">
-          <span title="喜欢" class="like">
-            <i class="like-icon" @click="like(item.workId)"></i>{{item.like}}</span>
+          <span title="喜欢" class="like" @click="like(index)">
+            <i class="like-icon" v-bind:class="[item.isLike? 'likebefore':'likeafter']"></i>{{item.like}}</span>
           <span title="分享" class="share">
             <i class="share-icon"></i>{{item.share}}</span>
         </p>
@@ -63,8 +63,8 @@
           {{item.content}}
         </div>
         <div class="card-item-operator">
-          <span title="喜欢" class="like" @click="like(item.workId)">
-            <i class="like-icon"></i>{{item.like}}</span>
+          <span title="喜欢" class="like" @click="likeForCards(index)">
+            <i v-bind:class="[item.isLike? 'likebefore':'likeafter']"></i>{{item.like}}</span>
           <span title="分享" class="share">
             <i class="share-icon"></i>{{item.share}}</span>
         </div>
@@ -115,7 +115,13 @@
 <script>
 import { isEmpty, getStore } from "../utils.js";
 import { mapState, mapMutations } from "vuex";
-import { items, cards, works, upload_form } from "../data/localData.js";
+import {
+  items,
+  cards,
+  works,
+  upload_form,
+  like_form
+} from "../data/localData.js";
 import Api from "../data/api.js";
 export default {
   name: "HomePage",
@@ -139,7 +145,8 @@ export default {
       start_pos: 0,
       showFloatBall: true,
       dest_x: 0,
-      dest_y: 0
+      dest_y: 0,
+      like_form
     };
   },
   computed: {
@@ -265,7 +272,8 @@ export default {
                 content: response.body.data.content,
                 imgurl: response.body.data.imgurl,
                 like: response.body.data.like,
-                share: response.body.data.share
+                share: response.body.data.share,
+                isLike: response.body.data.isLike
               });
               console.log(response.body);
               console.log(that.works);
@@ -286,23 +294,69 @@ export default {
       var textVal = this.upload_form.content.length;
       this.surplus = 140 - textVal;
     },
-    like: function(workId) {
+    like: function(index) {
+      console.log(
+        "like" + this.works[index].like + "isLike" + this.works[index].isLike
+      );
       let that = this;
-      this.$http
-        .post(Api.LIKE, { username: this.username, type: "1", workId: workId })
-        .then(
-          response => {
-            if (response.ok && response.code == "201") {
-              that.showSnap("error", "点赞失败");
-            } else {
-              console.log(response.body);
-              that.works = response.body.data;
-            }
-          },
-          () => {
-            that.showSnap("error", "点赞失败");
+      this.like_form.type = this.works[index].isLike ? "1" : "0";
+      this.like_form.workId = this.works[index].workId;
+      this.like_form.username = this.username;
+      this.$http.post(Api.LIKE, like_form).then(
+        response => {
+          if (response.ok && response.code == "201") {
+            that.showSnap("error", response.body.message);
+          } else {
+            console.log(response.body);
+            that.showSnap("success", response.body.message);
+            that.works[index].like = that.works[index].isLike
+              ? parseInt(that.works[index].like) + 1
+              : parseInt(that.works[index].like) - 1;
+            that.works[index].isLike = !that.works[index].isLike;
+            console.log(
+              "like" +
+                that.works[index].like +
+                "isLike" +
+                that.works[index].isLike
+            );
           }
-        );
+        },
+        () => {
+          that.showSnap("error", "点赞失败");
+        }
+      );
+    },
+    likeForCards: function(index) {
+      console.log(
+        "cards - like" + this.cards[index].like + "cards -isLike" + this.cards[index].isLike
+      );
+      let that = this;
+      this.like_form.type = this.cards[index].isLike ? "1" : "0";
+      this.like_form.workId = this.cards[index].workId;
+      this.like_form.username = this.username;
+      this.$http.post(Api.LIKE, like_form).then(
+        response => {
+          if (response.ok && response.code == "201") {
+            that.showSnap("error", response.body.message);
+          } else {
+            console.log(response.body);
+            that.showSnap("success", response.body.message);
+            that.cards[index].like = that.cards[index].isLike
+              ? parseInt(that.cards[index].like) + 1
+              : parseInt(that.cards[index].like) - 1;
+            that.cards[index].isLike = !that.cards[index].isLike;
+            console.log(
+              "like" +
+                that.cards[index].like +
+                "isLike" +
+                that.cards[index].isLike
+            );
+          }
+        },
+        () => {
+          that.showSnap("error", "点赞失败");
+        }
+      );
     }
   }
 };
@@ -462,13 +516,21 @@ export default {
   font-size: 8px;
   margin-right: 8px;
 }
-.like-icon {
+.likebefore {
   display: inline-block;
   width: 16px;
   height: 16px;
   margin-right: 4px;
   vertical-align: bottom;
   background: url(/static/imgs/unlike.svg) 0 0 no-repeat;
+}
+.likeafter {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+  vertical-align: bottom;
+  background: url(/static/imgs/like.svg) 0 0 no-repeat;
 }
 .share {
   width: auto;
