@@ -45,7 +45,7 @@
         </div>
         <p class="card-item-operator">
           <span title="喜欢" class="like" @click="like(index)">
-            <i class="like-icon" v-bind:class="[item.isLike? 'likebefore':'likeafter']"></i>{{item.like}}</span>
+            <i class="like-icon" v-bind:class="[item.isLike? 'likeafter':'likebefore']"></i>{{item.like}}</span>
           <span title="分享" class="share">
             <i class="share-icon"></i>{{item.share}}</span>
         </p>
@@ -64,7 +64,7 @@
         </div>
         <div class="card-item-operator">
           <span title="喜欢" class="like" @click="likeForCards(index)">
-            <i v-bind:class="[item.isLike? 'likebefore':'likeafter']"></i>{{item.like}}</span>
+            <i v-bind:class="[item.isLike? 'likeafter':'likebefore']"></i>{{item.like}}</span>
           <span title="分享" class="share">
             <i class="share-icon"></i>{{item.share}}</span>
         </div>
@@ -299,8 +299,9 @@ export default {
         "like" + this.works[index].like + "isLike" + this.works[index].isLike
       );
       let that = this;
-      this.like_form.type = this.works[index].isLike ? "1" : "0";
-      this.like_form.workId = this.works[index].workId;
+      this.like_form.type = this.works[index].isLike ? "0" : "1";
+      console.log("type:"+this.like_form.type);
+      this.like_form.workId = this.works[index]._id;
       this.like_form.username = this.username;
       this.$http.post(Api.LIKE, like_form).then(
         response => {
@@ -310,8 +311,8 @@ export default {
             console.log(response.body);
             that.showSnap("success", response.body.message);
             that.works[index].like = that.works[index].isLike
-              ? parseInt(that.works[index].like) + 1
-              : parseInt(that.works[index].like) - 1;
+              ? parseInt(that.works[index].like) - 1
+              : parseInt(that.works[index].like) + 1;
             that.works[index].isLike = !that.works[index].isLike;
             console.log(
               "like" +
@@ -331,8 +332,8 @@ export default {
         "cards - like" + this.cards[index].like + "cards -isLike" + this.cards[index].isLike
       );
       let that = this;
-      this.like_form.type = this.cards[index].isLike ? "1" : "0";
-      this.like_form.workId = this.cards[index].workId;
+      this.like_form.type = this.cards[index].isLike ? "0" : "1";
+      this.like_form.workId = this.cards[index]._id;
       this.like_form.username = this.username;
       this.$http.post(Api.LIKE, like_form).then(
         response => {
@@ -342,8 +343,8 @@ export default {
             console.log(response.body);
             that.showSnap("success", response.body.message);
             that.cards[index].like = that.cards[index].isLike
-              ? parseInt(that.cards[index].like) + 1
-              : parseInt(that.cards[index].like) - 1;
+              ? parseInt(that.cards[index].like) - 1
+              : parseInt(that.cards[index].like) + 1;
             that.cards[index].isLike = !that.cards[index].isLike;
             console.log(
               "like" +
