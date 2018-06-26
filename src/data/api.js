@@ -1,8 +1,8 @@
 module.exports = {
-    REGISTER: "http://118.89.233.211:3000/api/register",
-    LOGIN: "http://118.89.233.211:3000/api/login",
-    UPLOAD:"http://118.89.233.211:3000/api/upload",
-    GETWORKLIST:"http://118.89.233.211:3000/api/getWorkList",
-    GETCARDLIST:"http://118.89.233.211:3000/api/getCardList",
-    LIKE:"http://118.89.233.211:3000/api/like"
+    REGISTER: "http://localhost:3001/api/register",
+    LOGIN: "http://localhost:3001/api/login",
+    UPLOAD:"http://localhost:3001/api/upload",
+    GETWORKLIST:"http://localhost:3001/api/getWorkList",
+    GETCARDLIST:"http://localhost:3001/api/getCardList",
+    LIKE:"http://localhost:3001/api/like"
 };
