@@ -52,7 +52,7 @@
       </div>
     </div>
     <!-- 优秀作品推荐 -->
-    <h4 style="background: #fff;margin-top: 30px;margin-left:20%;">热门推荐</h4>
+    <h4 v-show="cards.length>0" style="background: #fff;margin-top: 30px;margin-left:20%;">热门推荐</h4>
     <div class="card-list">
       <div class="card-item" v-for="(item,index) in cards" :key="index">
         <img class="card-item-img" :src="item.imgurl">
