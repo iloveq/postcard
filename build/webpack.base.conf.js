@@ -69,6 +69,16 @@ module.exports = {
       {  //手动添加这一条，相当于是编译识别sass!
         test: /\.scss$/,
         loaders: ["style", "css", "sass"]
+      },
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        include: [
+          resolve('src'),
+          resolve('test'),
+          resolve('/node_modules/_element-ui@2.4.0@element-ui/src'),          
+          resolve('/node_modules/_element-ui@2.4.0@element-ui/packages')
+        ]
       }
     ]
   },
