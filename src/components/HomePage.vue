@@ -179,7 +179,7 @@ export default {
             that.showSnap("error", "获取失败");
           } else {
             console.log(response.body);
-            that.works = response.body.data;
+            that.works = response.body.data.workList;
           }
         },
         () => {
@@ -198,7 +198,7 @@ export default {
               that.showSnap("error", "获取失败");
             } else {
               console.log(response.body);
-              that.cards = response.body.data;
+              that.cards = response.body.data.cardList;
               that.showSnap("success", "获取成功");
             }
           },
@@ -267,13 +267,13 @@ export default {
               that.showSnap("success", response.body.message);
               that.closeDialog();
               that.works.splice(0, 0, {
-                _id: response.body.data._id,
-                username: response.body.data.username,
-                content: response.body.data.content,
-                imgurl: response.body.data.imgurl,
-                like: response.body.data.like,
-                share: response.body.data.share,
-                isLike: response.body.data.isLike
+                _id: response.body.data.work._id,
+                username: response.body.data.work.username,
+                content: response.body.data.work.content,
+                imgurl: response.body.data.work.imgurl,
+                like: response.body.data.work.like,
+                share: response.body.data.work.share,
+                isLike: response.body.data.work.isLike
               });
               console.log(response.body);
               console.log(that.works);
